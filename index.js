@@ -8,19 +8,19 @@ const argv = require('yargs').argv;
 
 function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
-    case 'list':
+    case "list":
       listContacts();
       break;
 
-    case 'get':
-      getContactById();
+    case "get":
+      getContactById(id);
       break;
 
-    case 'add':
+    case "add":
       addContact(name, email, phone);
       break;
 
-    case 'remove':
+    case "remove":
       removeContact(id);
       break;
 

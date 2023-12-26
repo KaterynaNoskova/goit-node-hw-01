@@ -2,6 +2,7 @@ const fs = require("fs").promises;
 const { error } = require("console");
 const path = require("path");
 const contactsPath = path.join(__dirname, "db/contacts.json");
+const crypto = require("crypto");
 
 async function getContacts() {
   try {
@@ -25,14 +26,19 @@ async function listContacts() {
 
 async function getContactById(contactId) {
   try {
+    if (contactId === undefined || contactId === null) {
+      console.error('Contact ID is undefined or null');
+      return null;
+    };
     const contacts = await getContacts();
     const contact = contacts.find((contact) => {
       return contact.id === contactId.toString();
     });
     if (contact) {
       console.log(contact);
+      return contact;
     } else {
-      console.log(`null`);
+      console.log('null');
       return null;
     }
   } catch (err) {
@@ -56,7 +62,7 @@ async function removeContact(contactId) {
     } else {
       console.log(removeContacts);
     }
-    fs.writeFile(contactsPath, stringifiedContacts, "utf8", (err) => {
+    fs.writeFile(contactsPath, contactToString, "utf8", (err) => {
       if (err) {
         console.error("Error writing to file:", err);
       } else {
